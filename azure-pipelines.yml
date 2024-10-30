@@ -7,19 +7,19 @@ trigger:
 pool:
   vmImage: 'windows-latest'
 
-variables:
-  API_URL: "https://azurenamingtool-ggc4gxb7cxbpb8ef.centralus-01.azurewebsites.net/api/Admin/GetAdminLog"
-  API_KEY: $(READ_API_KEY)  # Stored as a secret in the pipeline
-  ADMIN_PASSWORD: $(ADMIN_PASS)  # Stored as a secret in the pipeline
-
 steps:
   - powershell: |
+      $apiUrl = "https://azurenamingtool-ggc4gxb7cxbpb8ef.centralus-01.azurewebsites.net/api/Admin/GetAdminLog"
+      $apiKey = "$(API_KEY)"  # Store this as a secret variable in Azure DevOps
+      $adminPassword = "$(ADMIN_PASSWORD)"  # Also stored as a secret variable
+
+      # Define headers as shown in the curl example
       $headers = @{
-          "x-api-key" = $env:READ_API_KEY
-          "Admin-Password" = $env:ADMIN_PASS
-          "Content-Type" = "application/json"
+          "APIKey" = $apiKey
+          "AdminPassword" = $adminPassword
+          "accept" = "*/*"
       }
 
-      # Call the API with GET request
-      Invoke-RestMethod -Uri $env:API_URL -Method Get -Headers $headers
+      # Call the API
+      Invoke-RestMethod -Uri $apiUrl -Method Get -Headers $headers
     displayName: "Get Admin Log"
