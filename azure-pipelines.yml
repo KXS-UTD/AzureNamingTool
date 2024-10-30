@@ -1,0 +1,30 @@
+# Azure DevOps Pipeline YAML
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  API_URL: "https://azurenamingtool-ggc4gxb7cxbpb8ef.centralus-01.azurewebsites.net/admin"
+  API_TOKEN: $(YOUR_SECRET_API_TOKEN)
+
+steps:
+  - powershell: |
+      # Define JSON payload with parameters for naming
+      $jsonPayload = @{
+          serviceName = "example-service"
+          environment = "production"
+          resourceType = "storageAccount"
+      } | ConvertTo-Json
+
+      # Call the API
+      $headers = @{
+          "Authorization" = "Bearer $env:API_TOKEN"
+          "Content-Type" = "application/json"
+      }
+
+      Invoke-RestMethod -Uri $env:API_URL -Method Post -Headers $headers -Body $jsonPayload
+    displayName: "Call API to Name Azure Services"
