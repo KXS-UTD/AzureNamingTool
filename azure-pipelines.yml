@@ -10,8 +10,8 @@ pool:
 steps:
   - powershell: |
       $apiUrl = "https://azurenamingtool-ggc4gxb7cxbpb8ef.centralus-01.azurewebsites.net/api/Admin/GetAdminLog"
-      $apiKey = "$(FULL_API_KEY)"  # Store this as a secret variable in Azure DevOps
-      $adminPassword = "$(ADMIN_PASS)"  # Also stored as a secret variable
+      $apiKey = "$(FULL_API_KEY)"
+      $adminPassword = "$(ADMIN_PASS)"
 
       # Define headers as shown in the curl example
       $headers = @{
