@@ -10,13 +10,13 @@ pool:
 variables:
   API_URL: "https://azurenamingtool-ggc4gxb7cxbpb8ef.centralus-01.azurewebsites.net/api/Admin/GetAdminLog"
   API_KEY: $(READ_API_KEY)  # Stored as a secret in the pipeline
-  ADMIN_PASSWORD: $(ADMIN_PASSWORD)  # Stored as a secret in the pipeline
+  ADMIN_PASSWORD: $(ADMIN_PASS)  # Stored as a secret in the pipeline
 
 steps:
   - powershell: |
       $headers = @{
-          "x-api-key" = $env:API_KEY
-          "Admin-Password" = $env:ADMIN_PASSWORD
+          "x-api-key" = $env:READ_API_KEY
+          "Admin-Password" = $env:ADMIN_PASS
           "Content-Type" = "application/json"
       }
 
